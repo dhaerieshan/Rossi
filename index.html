@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Folded Feelings for Rossi</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fffaf5;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      background: #fff0e0;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 100%;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h1 {
+      color: #e67373;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .origami-wrapper {
+      perspective: 1000px;
+    }
+
+    #origami-card {
+      width: 90%;
+      height: 120px;
+      margin: 0 auto 20px auto;
+      background: #fff;
+      border: 2px solid #ffcccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      padding: 10px;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+    }
+
+    .folded {
+      transform: rotateX(90deg);
+      opacity: 0;
+    }
+
+    .unfolded {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px;
+      border: none;
+      background-color: #ff9999;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff6b6b;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .proposal-line {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+
+    #heart {
+      font-size: 3rem;
+      margin-top: 20px;
+      animation: beat 0.6s infinite alternate;
+      color: #ff3366;
+    }
+
+    @keyframes beat {
+      from { transform: scale(1); }
+      to { transform: scale(1.3); }
+    }
+
+    .mcq-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .mcq-btn {
+      background-color: #ffb3b3;
+      font-weight: bold;
+    }
+
+    #result-message {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: #cc0066;
+    }
+
+    #message-back {
+      margin-top: 30px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      resize: none;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    form button[type="submit"] {
+      margin-top: 10px;
+      background-color: #ff7f7f;
+      color: white;
+      font-weight: bold;
+    }
+
+    #heart-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .floating-heart {
+      position: absolute;
+      color: #ff6b81;
+      font-size: 20px;
+      animation: floatUp 4s ease-in infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Folded Feelings 💌</h1>
+
+    <div class="origami-wrapper">
+      <div id="origami-card" class="folded">
+        <p id="message">Click “Unfold” to begin...</p>
+      </div>
+    </div>
+
+    <button id="next-btn">Unfold</button>
+
+    <div id="final-step" class="hidden">
+      <p class="proposal-line">So… what's the right answer? 😄</p>
+      <div class="mcq-options">
+        <button class="mcq-btn" data-answer="A">A. Yes</button>
+        <button class="mcq-btn" data-answer="B">B. A</button>
+        <button class="mcq-btn" data-answer="C">C. Both A and B</button>
+        <button class="mcq-btn" data-answer="D">D. All of the above</button>
+      </div>
+      <div id="heart" class="hidden">💗</div>
+      <p id="result-message" class="hidden"></p>
+    </div>
+
+    <!-- Reply Form -->
+    <div id="message-back" class="hidden">
+      <h3>Your words mean the world to me, Rossi 💬</h3>
+      <form action="https://formspree.io/f/xjkrejnp" method="POST">
+        <textarea name="message" placeholder="Write something here..." required></textarea>
+        <input type="email" name="_replyto" placeholder="Your email (optional)">
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="heart-background"></div>
+
+  <script>
+    const messages = [
+      "Happy Birthday, Rossi 🎂",
+      "Rossi…",
+      "It’s only been days... but you already feel like magic.",
+      "You make me smile without even trying.",
+      "I don’t want this to be just a moment — I want this to unfold into something beautiful…",
+      "So I need to ask... will you be my girlfriend? 💍 Or maybe something even more — my forever, my everything?"
+    ];
+
+    let current = 0;
+    let heartCount = 1;
+
+    const msgEl = document.getElementById("message");
+    const nextBtn = document.getElementById("next-btn");
+    const card = document.getElementById("origami-card");
+    const finalStep = document.getElementById("final-step");
+    const heart = document.getElementById("heart");
+    const resultMsg = document.getElementById("result-message");
+    const messageBack = document.getElementById("message-back");
+
+    function unfoldCard() {
+      card.classList.remove("folded");
+      card.classList.add("unfolded");
+    }
+
+    function foldCard() {
+      card.classList.remove("unfolded");
+      card.classList.add("folded");
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (current < messages.length) {
+        foldCard();
+        setTimeout(() => {
+          msgEl.textContent = messages[current];
+          unfoldCard();
+          generateHearts(heartCount);
+          heartCount *= 2;
+          current++;
+          if (current === messages.length) {
+            nextBtn.textContent = "Final Fold";
+          }
+        }, 600);
+      } else {
+        nextBtn.classList.add("hidden");
+        card.classList.add("hidden");
+        finalStep.classList.remove("hidden");
+      }
+    });
+
+    const mcqButtons = document.querySelectorAll('.mcq-btn');
+    mcqButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        heart.classList.remove("hidden");
+        resultMsg.textContent = "💘 You stole my heart, Rossi.";
+        resultMsg.classList.remove("hidden");
+        messageBack.classList.remove("hidden");
+        mcqButtons.forEach(btn => btn.disabled = true);
+      });
+    });
+
+    let activeHeartCount = 1;
+    let heartInterval;
+
+    function generateHearts(count) {
+      activeHeartCount = count;
+
+      if (heartInterval) clearInterval(heartInterval);
+      spawnHearts(count);
+
+      heartInterval = setInterval(() => {
+        spawnHearts(activeHeartCount);
+      }, 3000);
+    }
+
+    function spawnHearts(count) {
+      const bg = document.getElementById("heart-background");
+
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 16) + "px";
+        bg.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>
