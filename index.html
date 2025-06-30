@@ -36,7 +36,17 @@
     h1 {
       color: #e67373;
       margin-bottom: 20px;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .poem {
+      background: #ffe5e5;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 25px;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.5;
     }
 
     .origami-wrapper {
@@ -192,6 +202,20 @@
   <div class="container">
     <h1>Folded Feelings 💌</h1>
 
+    <!-- Sweet Birthday Poem -->
+    <div class="poem">
+      Happy 20th Birthday, Rossi 🌸<br><br>
+      Two decades spun in laughter & light,<br>
+      Today you bloom, a vision bright.<br>
+      May your heart unfold like origami wings,<br>
+      And every wish take flight on silver strings.<br><br>
+      Here’s to you — my magic muse,<br>
+      The sweetest dream I’ll never lose.<br>
+      So unfold this letter, line by line,<br>
+      And know, sweet Rossi — you’re forever mine. 💖
+    </div>
+
+    <!-- Origami unfolding -->
     <div class="origami-wrapper">
       <div id="origami-card" class="folded">
         <p id="message">Click “Unfold” to begin...</p>
@@ -226,15 +250,14 @@
   <div id="heart-background"></div>
 
   <script>
-      const messages = [
-        "🎉 Happy Birthday, Rossi 🎂💐",
-        "🌹 Rossi… 💕",
-        "⏳ It’s only been days... but you already feel like magic ✨💫",
-        "😊 You make me smile without even trying 😍💭",
-        "📖 I don’t want this to be just a moment — I want this to unfold into something beautiful… 🦋🌷",
-        "❤️ So I need to ask... 💍 will you be my girlfriend? 👩‍❤️‍👨 Or maybe something even more — my forever, my everything? 💘👑"
-      ];
-
+    const messages = [
+      "🎉 Happy Birthday, Rossi 🎂💐",
+      "🌹 Rossi… 💕",
+      "⏳ It’s only been days... but you already feel like magic ✨💫",
+      "😊 You make me smile without even trying 😍💭",
+      "📖 I don’t want this to be just a moment — I want this to unfold into something beautiful… 🦋🌷",
+      "❤️ So I need to ask... 💍 will you be my girlfriend? 👩‍❤️‍👨 Or maybe something even more — my forever, my everything? 💘👑"
+    ];
     let current = 0;
     let heartCount = 1;
 
@@ -315,6 +338,21 @@
         setTimeout(() => heart.remove(), 5000);
       }
     }
+    const today = new Date();
+  const month = today.getMonth(); // 0 = Jan, so June = 5
+  const day = today.getDate();
+
+  const content = document.querySelector('.container');
+  if (month !== 5 || day !== 30) {
+    // If NOT June 30th, hide the content
+    content.innerHTML = `
+      <h1>Folded Feelings 💌</h1>
+      <p style="font-size:1.2rem; margin-top:20px;">It’s not time yet! 🌙✨<br>
+      Come back on <strong>June 30th</strong> for your surprise, Rossi 🎉💖</p>
+    `;
+  } else {
+    // If it's June 30th, do nothing. Content stays!
+  }
   </script>
 </body>
 </html>
